@@ -1,0 +1,14 @@
+/* conjunto de de estilização */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-zinc-900 text-zinc-100;
+}
+
+/* CMS - Content Management System*/
+/* headless CMS: tras apenas o Painel admin*. Dados fornecidos por uma API rest ou graphQL/
+/* react consome essa API do CMS */
+/*query = buscar*/
+/*mutation = cria/ altera/ deleta*/
