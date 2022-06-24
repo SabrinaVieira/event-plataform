@@ -12,7 +12,10 @@ import { ApolloClient, InMemoryCache, DefaultOptions} from "@apollo/client";
 //   };
 
 export const client = new ApolloClient({
-    uri: 'https://api-sa-east-1.graphcms.com/v2/cl4nl559i0a4401xo5le0hvam/master',
+    uri: import.meta.env.VITE_API_URL,
+    headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`
+    },
     cache: new InMemoryCache(),
     // defaultOptions: defaultOptions,
 })
