@@ -2,48 +2,49 @@ import { DefaultUi, Player, Youtube } from '@vime/react'
 import { CaretRight, DiscordLogo, FileArrowDown, ImageSquare, Lightning } from 'phosphor-react'
 import '@vime/core/themes/default.css'
 import { gql, useQuery } from '@apollo/client';
+import { useGetLessonBySlugQuery } from '../graphql/generated';
 
-interface VideoProps{
+interface VideoProps {
   lessonSlug: string;
 }
 
-interface GetLessonBySlugResponse {
-  lesson: {
-    videoId: string;
-    title: string;
-    description: string;
-    teacher: {
-      name: string;
-      bio: string;
-      avatarURL: string;
-    }
-  }
-}
+// interface GetLessonBySlugResponse {
+//   lesson: {
+//     videoId: string;
+//     title: string;
+//     description: string;
+//     teacher: {
+//       name: string;
+//       bio: string;
+//       avatarURL: string;
+//     }
+//   }
+// }
 
-const GET_LESSON_BY_SLUG_QUERY = gql`
-query GetLessonBySlug ($slug: String) {
-  lesson(where: {slug: $slug}) {
-    videoId
-    title
-    description
-    teacher {
-      name
-      bio
-      avatarURL
-    }
-  }
-}
-`
+// const GET_LESSON_BY_SLUG_QUERY = gql`
+// query GetLessonBySlug ($slug: String) {
+//   lesson(where: {slug: $slug}) {
+//     videoId
+//     title
+//     description
+//     teacher {
+//       name
+//       bio
+//       avatarURL
+//     }
+//   }
+// }
+// `
 
 export default function Video(props: VideoProps) {
-  const { data, loading } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+  const { data, loading } = useGetLessonBySlugQuery({
     variables: {
       slug: props.lessonSlug
     },
     fetchPolicy: 'no-cache'
   });
 
-  if(!data){
+  if (!data || !data.lesson) {
     return <div className='flex-1'>
       <p>Carregando...</p>
     </div>
@@ -59,32 +60,34 @@ export default function Video(props: VideoProps) {
           </Player>
         </div>
       </div>
-      
+
       <div className='p-8 max-w-[1100px] mx-auto'>
         <div className='flex items-start gap-16'>
           <div className='flex-1'>
             <h1 className='text-2xl font-bold'>
-            {data.lesson.title}
+              {data.lesson.title}
             </h1>
             <p className='mt-4 text-gray-200 leading-relaxed'>
-            {data.lesson.description}
+              {data.lesson.description}
             </p>
 
-            <div className='flex items-center grap-4 mt-6'>
-              <img
-                className='h16 w-16 rounded-full border-2'
-                src={data.lesson.teacher.avatarURL}
-                alt="" />
+            {data.lesson.teacher &&
+              <div className='flex items-center grap-4 mt-6'>
+                <img
+                  className='h16 w-16 rounded-full border-2'
+                  src={data.lesson.teacher.avatarURL}
+                  alt="" />
 
-              <div className='leading-relaxed'>
-                <strong className='font-bold text-2xl block'>
-                {data.lesson.teacher.name}
-                </strong>
-                <span className='text-gray-200 text-sm block'>
-                {data.lesson.teacher.bio}
-                </span>
+                <div className='leading-relaxed'>
+                  <strong className='font-bold text-2xl block'>
+                    {data.lesson.teacher.name}
+                  </strong>
+                  <span className='text-gray-200 text-sm block'>
+                    {data.lesson.teacher.bio}
+                  </span>
+                </div>
               </div>
-            </div>
+            }
 
           </div>
           <div className='flex flex-col gap-4'>
@@ -119,14 +122,14 @@ export default function Video(props: VideoProps) {
 
           <a href="" className='bg-gray-700 rounded overflow-hidden flex items-stretch gap-6 hover:bg-gray-600 transitions-colors'>
             <div className='bg-green-700 h-full p-6 flex items-center'>
-            <ImageSquare size={24} />
+              <ImageSquare size={24} />
             </div>
             <div className='py-6 leading-relaxed'>
               <strong className='text-2xl'>
-              Wallpapers exclusivos
+                Wallpapers exclusivos
               </strong>
               <p className='text-sm text-gray-200 mt-2'>
-              Baixe wallpapers exclusivos do Ignite Lab e personalize a sua máquina
+                Baixe wallpapers exclusivos do Ignite Lab e personalize a sua máquina
               </p>
             </div>
             <div className='h-full p-6 flex items-center'>
