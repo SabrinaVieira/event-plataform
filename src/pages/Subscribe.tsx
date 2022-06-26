@@ -3,6 +3,7 @@ import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
+import  mockupImg from "../../src/assets/code-mockup.png"
 
 // const CREATE_SUBSCRIBER_MUTATION = gql`
 //     mutation CreateSubscriber ($name: String!, $email: String!){
@@ -18,7 +19,7 @@ export default function Subscribe() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
-    const [createSubscriber, {loading, data}] = useCreateSubscriberMutation();
+    const [createSubscriber, { loading, data }] = useCreateSubscriberMutation();
 
     async function handleSubscribe(event: FormEvent) {
         event.preventDefault();
@@ -65,7 +66,7 @@ export default function Subscribe() {
                             className="bg-gray-900 rounded px-5 h-14"
                         />
                         <button
-                        disabled={loading}
+                            disabled={loading}
                             type="submit"
                             className=" mt-4 bg-green-500 uppercase py-4 rounded font-bold hover:bg-green-700 transition disabled:opacity-50"
                         >
@@ -75,7 +76,9 @@ export default function Subscribe() {
                 </div>
 
             </div>
-            <img src="/src/assets/code-mockup.png" alt="" className="mt-10" />
+            <section>
+                <img src={ mockupImg } alt="Mockup da aplicação" className="mt-10" />
+            </section>
         </div>
     )
 }
